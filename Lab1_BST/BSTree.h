@@ -17,15 +17,8 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 
 			BinaryNode *left;
 			BinaryNode *right;
-			//Initialize class members from constructor arguments 
-			//by using a member initializer list.
-			//This method uses direct initialization, which is more
-			//efficient than using assignment operators inside the constructor body.
 			BinaryNode( KeyComparable & key, Value & value, BinaryNode *left = nullptr, BinaryNode *right = nullptr)
-				: value{ value }, left{ left }, right{ right } , key{ key }
-			{
-
-			}
+				: value{ value }, left{ left }, right{ right } , key{ key } {}
 
 	};	// end of BinaryNode class
 
@@ -41,8 +34,45 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 	*     All nodes to the right will be greater	
 	*/
 	bool insert(Value item, KeyComparable key, BinaryNode * node) {
-		//TODO write for part 1
-		return false;		
+		// already checked for empty tree
+		// now walk down tree from root
+
+		bool success = false; // if placed
+
+
+		if (key > node->key) {
+			//go right
+			if (node->right == nullptr) {
+
+				node->right = new BinaryNode(key, value);
+				success = true;
+
+			} else {
+
+				this->insert(item, key, node->right);
+			}
+
+		} else if (key < node->key) {
+			//go left
+			if (node->left == nullptr) {
+
+				node->left = new BinaryNode(key, value);
+				success = true;
+				
+			} else {
+
+				this->insert(item, key, node->left);
+
+			}
+
+		}
+		else {
+			// do not accept 
+			success = false;
+		}
+			
+		
+		return success;		
 	}
 
 	/*
@@ -171,9 +201,17 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 	*     All nodes to the left will be less
 	*     All nodes to the right will be greater
 	*/
-	bool insert( Value value,  KeyComparable key) {
-		//TODO calls private remove
-		return false;
+	bool insert( Value value,  KeyComparable key) 
+	{
+		if (this->isEmpty())
+		{
+			this->root = new BinaryNode(key, value);//this is a pointer
+			return true;
+		}
+		else 
+		{
+			return insert(value, key, this->root);
+		}
 	}
 
 	/*
