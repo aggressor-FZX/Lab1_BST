@@ -8,7 +8,6 @@
 #include <vector>
 #include <algorithm>
 #include <random>
-#include <string>
 #include <sstream>
 
 
@@ -58,6 +57,7 @@ int main() {
 
 	BinarySearchTree<int, ComputerScientist*> tree;
 	tree.insert(new ComputerScientist("Robert", "Ward", "Education", 50), 50);
+
 	tree.insert(new ComputerScientist("Grace", "Hopper", "Compilers", 40), 40);
 	tree.insert(new ComputerScientist("Alan", "Turing", "Cryptogarphy", 60), 60);
 	tree.insert(new ComputerScientist("John", "von Neumann", "Hardware", 45), 45);

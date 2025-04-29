@@ -37,31 +37,31 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 		// already checked for empty tree
 		// now walk down tree from root
 
-		bool success = false; // if placed
+		bool success = false; // flag, if insert fails return false
 
-
-		if (key > node->key) {
+		if (key > node->key) {//key larger
 			//go right
 			if (node->right == nullptr) {
-
-				node->right = new BinaryNode(key, value);
-				success = true;
+				// reached leaf
+				node->right = new BinaryNode(key, item);// make new node
+				success = true; //flag becomes true
 
 			} else {
-
+			// not leaf, go right make recursive call
 				this->insert(item, key, node->right);
 			}
 
 		} else if (key < node->key) {
-			//go left
+			//key smaller go left
 			if (node->left == nullptr) {
-
-				node->left = new BinaryNode(key, value);
-				success = true;
+				// Reached a leaf 
+				node->left = new BinaryNode(key, item);//make a new node
+				success = true;//flag becomes true
+				
 				
 			} else {
-
-				this->insert(item, key, node->left);
+				// Go left
+				success = this->insert(item, key, node->left);
 
 			}
 
@@ -125,7 +125,8 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 	* Prints all the data from the tree in order based on key
 	*/
 	void printTree(BinaryNode *t, std::ostream & out) const {
-		//TODO write for part 1
+		
+
 	}
 	
  public:
@@ -176,16 +177,16 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 	* Returns true if tree has no nodes
 	*/
 	bool isEmpty() const{
-		// optional code
+		// return condition of comparison ==
 		return root == nullptr;
 	}
 
 	/*
 	* Prints all the data from the tree in order based on key
 	*/
-	void printTree(std::ostream & out = cout) const {
+	void printTree(std::ostream & out = std::cout) const {
 		// TODO Calls the private printTree function
-		printTree(root , out);
+		printTree(this->root, out);
 	}
 
 	/*

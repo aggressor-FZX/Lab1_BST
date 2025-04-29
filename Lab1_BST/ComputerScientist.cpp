@@ -19,27 +19,20 @@ ostream& operator<< (ostream &out, const ComputerScientist &ComputerScientist)
 //efficient than using assignment operators inside the constructor body.
 ComputerScientist::ComputerScientist(const ComputerScientist& rhs)
 	: firstName{ rhs.firstName }, lastName{ rhs.lastName }, speciality{ rhs.speciality }, id{ rhs.id } {
-	// empty body of constructor 
+	// Just copies?  
 }
 
-//Initialize class members from constructor arguments 
-//by using a member initializer list.
-//This method uses direct initialization, which is more
-//efficient than using assignment operators inside the constructor body.
+// Most  used constructor
 ComputerScientist::ComputerScientist(string firstName, string lastName, string speciality, int id)
 	: firstName{ firstName }, lastName{ lastName }, speciality{ speciality }, id{ id } {
-	// empty body of constructor 
+	 
 }
-
-//Initialize class members from constructor arguments 
-//by using a member initializer list.
-//This method uses direct initialization, which is more
-//efficient than using assignment operators inside the constructor body.
+// Creates empty CS's
 ComputerScientist::ComputerScientist()
 	: firstName{ "" }, lastName{ "" }, speciality{ "" }, id{ -1 }  {  
 	// empty body of constructor 
 }
-
+//Destructor
 ComputerScientist::~ComputerScientist() { }
 
 bool ComputerScientist::operator==( const ComputerScientist& rhs) const {	
