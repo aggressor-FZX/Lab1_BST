@@ -69,12 +69,24 @@ int main() {
 	tree.insert(new ComputerScientist("Thing", "One", "SkyNet", 47), 47);
 	tree.insert(new ComputerScientist("Thing", "Two", "Holo Deck", 48), 48);
 
+
+	ComputerScientist* find;
+	//test min
+	find = tree.findMin();
+	if (find != nullptr) {
+		cout << "findMin: " << *find << endl << endl;
+	}
+	else {
+		cout << "findMin: returned a nullptr \n\n";
+	}
+
+	//test print
 	cout << "After Insertions: " << endl;
 	tree.printTree();
 	cout << endl << endl;
 
+	//test find
 	cout << "Testing find and findMax : " << endl;
-	ComputerScientist* find;
 	if (tree.find(80, find)) {
 		cout << *find << endl;
 	}

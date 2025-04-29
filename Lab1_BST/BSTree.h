@@ -22,7 +22,7 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 
 	};	// end of BinaryNode class
 
-	// the root node of the tree
+	// the root node of the tree, starts null becomes BinaryNode pointer
 	BinaryNode *root = nullptr;
 
 	/*
@@ -88,11 +88,30 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 	/*
 	* Finds the node with the smallest element in the subtree
 	*/
+	//private
 	BinaryNode * findMin(BinaryNode *t) const {
-		//TODO write for part 2
+
+		BinaryNode* minNode = nullptr;
+		BinaryNode* next = nullptr;
+
+		if (t && t->left) {
+
+			minNode = t->left;
+			
+			while(minNode->left) 
+			{
+			
+				minNode = minNode->left;
+
+			}
+
+		}
+
+		return minNode;
+
 	}
 
-	/*
+/*
 	* Finds the node with the largest element in the subtree
 	*/
 	BinaryNode * findMax(BinaryNode *t) const {
@@ -124,12 +143,22 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 	/*
 	* Prints all the data from the tree in order based on key
 	*/
-	void printTree(BinaryNode *t, std::ostream & out) const {
+	void printTree(BinaryNode* t, std::ostream& out) const{
+		// How the hell do I do this again?
+		// Goes left until it cant
+		// Calls FindMin()
+		this->findMin();
+		// 2 print then goes up
+		// 3 prints
+		// 4 go right 
+		// 5 prints
+		// Start agan at one
 		
 
 	}
 	
- public:
+  public:
+
 	BinarySearchTree() {
 		// optional code
 	}
@@ -141,9 +170,11 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 	/*
 	* Finds the node with the smallest element in the tree
 	*/
+	// the public finmin must return an object priv findmin returns node
 	const Value findMin() const {
-		// TODO calls private findMin part 2
-		return nullptr;
+		// must return a Value object or in this case a ComputerScientist
+		BinaryNode* minNode = this->findMin(this->root);//private takes arg root pointer
+		return minNode->value;
 	}
 
 	/*
@@ -186,7 +217,7 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 	*/
 	void printTree(std::ostream & out = std::cout) const {
 		// TODO Calls the private printTree function
-		printTree(this->root, out);
+		this->printTree(this->root, out);// Different Param list for priv func
 	}
 
 	/*
