@@ -84,11 +84,6 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 	//Private
 	void remove(const KeyComparable & key, BinaryNode ** t) {
 		//** ptr to ptr so we can modify the ptr
-		//if i remove a node I must 
-		if (t->left) 
-		{
-			// TO DO How to get ancestors?
-		}
 		
 		// 	
 	}
@@ -304,21 +299,21 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 	//	 Removes the nodes if it contains the given item
 	void remove(const KeyComparable & key) {
 		
-		Value* value;
+		Value value;
 		
 		//check if it is in tree
-		//calls public function and updates Val with valid object
-		if (find(key, *value))
+		if (find(key, Value & founditem))
 		{
-			// turns value to a ptr val to a ptr to  ptr val (don't overthink it)
-			// void remove(const KeyComparable & key, BinaryNode ** t) {
-			
-			remove(key, value);
+			//void return
+			remove(key, this->root )
 			//void remove(const KeyComparable & key, BinaryNode ** t) {
+
+
+
 		}
 		else 
 		{
-			cout << "Can't find " << key << endl;
+			cout << "Can't find " << key << end;
 		}
 
 

@@ -52,12 +52,15 @@ int main() {
 		cout << *list[i] << endl;					// remove later;  temporarily inserted to prove there is data
 		tree2.insert(list[i], list[i]->getID());
 	}
-	tree2.printTree();
+
+
 	cout << endl << endl;
+	cout << "begin test" << endl;
 
+	//new tree
 	BinarySearchTree<int, ComputerScientist*> tree;
+	//test insert
 	tree.insert(new ComputerScientist("Robert", "Ward", "Education", 50), 50);
-
 	tree.insert(new ComputerScientist("Grace", "Hopper", "Compilers", 40), 40);
 	tree.insert(new ComputerScientist("Alan", "Turing", "Cryptogarphy", 60), 60);
 	tree.insert(new ComputerScientist("John", "von Neumann", "Hardware", 45), 45);
@@ -68,27 +71,31 @@ int main() {
 	tree.insert(new ComputerScientist("Lonnie", "Heinke", "Game AI", 43), 43);
 	tree.insert(new ComputerScientist("Thing", "One", "SkyNet", 47), 47);
 	tree.insert(new ComputerScientist("Thing", "Two", "Holo Deck", 48), 48);
+	cout << "After Insertions: " << endl;
 
+	//test print tree
+	cout << "printing Tree" << endl;
+	tree.printTree();
 
 	ComputerScientist* find;
+
 	//test min
+	cout << endl << "Testing findMin : " << endl;
+
 	find = tree.findMin();
 	if (find != nullptr) {
 		cout << "findMin: " << *find << endl << endl;
 	}
 	else {
-		cout << "findMin: returned a nullptr \n\n";
+		cout << endl << "findMin: returned a nullptr \n\n";
 	}
 
-	//test print
-	cout << "After Insertions: " << endl;
-	tree.printTree();
 	cout << endl << endl;
 
 	//test find
 	cout << "Testing find and findMax : " << endl;
 	if (tree.find(80, find)) {
-		cout << *find << endl;
+		cout <<"found key "<< *find << endl;
 	}
 	else {
 		cout << "Not Found" << endl;
