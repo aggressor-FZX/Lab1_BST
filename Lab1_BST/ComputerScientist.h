@@ -11,7 +11,7 @@ class ComputerScientist {
 	ComputerScientist(const ComputerScientist& rhs);
 	ComputerScientist();
 	ComputerScientist(string firstName, string lastName, string speciality, int id);
-	~ComputerScientist();
+	virtual ~ComputerScientist(); // Ensure the destructor is virtual
 
 	string getFirstName() const;
 	string getLastName() const;
