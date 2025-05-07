@@ -94,39 +94,115 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 		// I must take its left inner most child ight child to replace it 
 		if (key != this->root->key) {
 
+			cout << "this node " << t->key << " comparing " << key << endl;
 			if (key > t->key)
 			{
-				cout << "next level left " << t->key << " is smaller than " << t->left->key << endl;
-				cout << "going right" << endl;
+				if (t->right->key == key && t->right->right == nullptr) {
+					cout << "t-right-right isnull and t right is key" << endl;
+					BinaryNode* oldNode = t->right;
+					t = t->right->left;
+					delete oldNode;
+					return;
+				}
+				else if (t->right->key == key && t->right->left == nullptr) {
+
+					cout << "t-right-left isnull and t right is key" << endl;
+					BinaryNode* oldNode = t->right;
+					t = t->right->right;
+					delete oldNode;
+					return;
+				}
+				cout << "going right " << endl;
+				cout << "next level right " << t->left->key << endl;
 				remove(key, t->right);
 			}
 			else if (key < t->key)
 			{
-				cout << "next level right " << t->key << " is larger than " << t->left->key << endl;
+				if (t->left->key == key && t->left->right == nullptr) {
+					cout << "t-left-right isnull and t left is key" << endl;
+
+					BinaryNode* oldNode = t->left;
+					t = t->right->left;
+					delete oldNode;
+					return;
+				}
+				else if (t->left->key == key && t->left->left == nullptr) {
+
+					cout << "t-left-leftg isnull and t left is key" << endl;
+					BinaryNode* oldNode = t->left;
+					t = t->right->right;
+					delete oldNode;
+					return;
+				}
+				cout << "going left" << endl;
+				cout << "this node" << t->key << " is smaller than " << key << endl;
+				cout << "next level left " << t->key << t->left->key << endl;
 				cout << "key comparison" << t->left->key << endl;
 				remove(key, t->left);
+			}// cases where node to be removed has both children
+			else if (t->right->key == key) {//t->right is target
+			// get in order successor
+				//get left branch largest value
+				BinaryNode* nextLargest = t->right->left;
+				while (nextLargest != nullptr && nextLargest->right != nullptr)
+				{
+					nextLargest = nextLargest->right;
+				}
+				//copy over contents
+				t->right->key = nextLargest->key;
+				t->right->value = nextLargest->value;
+				//recursive starting at new copied node, removing the one we just copied over
+				remove(nextLargest->key, t->right);
+
 			}
-		} // key equal to key value
+			else if (t->left->key == key) {//t->left is target
+				// get in order successor
+				//get left branch largest value
+				BinaryNode* nextLargest = t->left->left;
+				while (nextLargest != nullptr && nextLargest->right != nullptr)
+				{
+					nextLargest = nextLargest->right;
+				}
+				t->right->key = nextLargest->key;
+				t->right->value = nextLargest->value;
+				//recursive starting at new copied node, removing the one we just copied over
+				remove(nextLargest->key, t->right);
 
-		if (t->right == nullptr)
-		{
-			t = t->left;
-			return;
+			}
 		}
-		else if (t->right == nullptr)
-		{
-			t = t->right;
-			return;
-		}
-		else
-		{
-			//has both
-			//find max in left subtree
-			cout << "what now?" << endl;
+		else {
+
+			// head key equal to key value
+			if (t->right == nullptr)
+			{
+				BinaryNode* oldNode = t;
+				t = t->left;
+				delete oldNode;
+			}
+			else if (t->right == nullptr)
+			{
+				BinaryNode* oldNode = t;
+				t = t->right;
+				delete oldNode;
+			}
+			else
+			{
+				// get in order successor
+				//get left branch largest value
+				BinaryNode* nextLargest = t->left;
+				while (nextLargest != nullptr && nextLargest->right != nullptr)
+				{
+					nextLargest = nextLargest->right;
+				}
+				t->key = nextLargest->key;
+				t->value = nextLargest->value;
+				//recursive starting at new copied node, removing the one we just copied over
+				remove(nextLargest->key, t);
+
+			}
 		}
 
-			// 	
-		}
+	}
 	
 
 	
