@@ -1,4 +1,12 @@
 // BSTStartProject.cpp : Defines the entry point for the console application.
+/*
+* Jeff Calderon Implementation 
+*  Notes, it works but the remove function is sloppy. 
+* Not my best work... 
+* I don't have the time for perfection at the moment so it will have to do,
+* 
+* So far as I can tell it works as intended.
+*/
 //
 
 #include "BSTree.h"
@@ -9,7 +17,6 @@
 #include <algorithm>
 #include <random>
 #include <sstream>
-
 
 // Helper funcion to break the argument string into parts by the delimiter
 vector<string> split(const string& s, char delim) {
@@ -42,15 +49,14 @@ vector<ComputerScientist*> load(const string& filename) {
 
 int main() {
 	// Uncomment later to try the different files out
-	vector<ComputerScientist*> list = load("csListSmall.txt");
-	//vector<ComputerScientist*> list = load("csListMed.txt"); // use this file for turn-in
+	//vector<ComputerScientist*> list = load("csListSmall.txt");
+	vector<ComputerScientist*> list = load("csListMed.txt"); // use this file for turn-in
 	//vector<ComputerScientist*> list = load("csList.txt");
 
-	BinarySearchTree<int, ComputerScientist*> tree2;
+	BinarySearchTree<int, ComputerScientist*> tree;
 
 	for (int i = 0; i < list.size(); i++) {
-		cout << *list[i] << endl;					// remove later;  temporarily inserted to prove there is data
-		tree2.insert(list[i], list[i]->getID());
+		tree.insert(list[i], list[i]->getID());
 	}
 
 
@@ -58,20 +64,8 @@ int main() {
 	cout << "begin test" << endl;
 
 	//new tree
-	BinarySearchTree<int, ComputerScientist*> tree;
-	//test insert
-	tree.insert(new ComputerScientist("Robert", "Ward", "Education", 50), 50);
-	tree.insert(new ComputerScientist("Grace", "Hopper", "Compilers", 40), 40);
-	tree.insert(new ComputerScientist("Alan", "Turing", "Cryptogarphy", 60), 60);
-	tree.insert(new ComputerScientist("John", "von Neumann", "Hardware", 45), 45);
-	tree.insert(new ComputerScientist("Dennis", "Ritchie", "Compilers", 55), 55);
-	tree.insert(new ComputerScientist("Ada", "Lovelace", "Programming", 30), 30);
-	tree.insert(new ComputerScientist("Edsger", "Dikstra", "Algorithms", 80), 80);
-	tree.insert(new ComputerScientist("Ken", "Thompson", "OS", 70), 70);
-	tree.insert(new ComputerScientist("Lonnie", "Heinke", "Game AI", 43), 43);
-	tree.insert(new ComputerScientist("Thing", "One", "SkyNet", 47), 47);
-	tree.insert(new ComputerScientist("Thing", "Two", "Holo Deck", 48), 48);
 	cout << "After Insertions: " << endl;
+	cout << "total size is " << list.size() << endl;
 
 	//test print tree
 	cout << "printing Tree" << endl;
@@ -107,14 +101,20 @@ int main() {
 	}
 	else {
 		cout << "findMax: returned a nullptr \n\n";
+
 	}
 
-	tree.remove(80);
-	tree.remove(50);
-	tree.remove(30);
-	tree.remove(40);
+	cout << "befor Deletions: " << endl;
+	tree.printTree();
+	for (int i = 0; i < list.size() - 1; i++) {
 
-	cout << "After Deletions: " << endl;
+		int key = list[i]->getID();
+
+		if(key %2 != 0){
+			tree.remove(key);
+		}
+
+	}
 	tree.printTree();
 
 	system("pause");

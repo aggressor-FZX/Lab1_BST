@@ -1,3 +1,12 @@
+/*
+Jeff Calderon BSTree.h file
+implements the templete BinarySearchTree for 
+building a binary search tree. 
+
+
+*/
+
+
 #include "BSTInterface.h"
 #include <string>
 
@@ -92,62 +101,73 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 		// *& Using a ref so we can modify the ptr
 		//if i remove a node I must 
 		// I must take its left inner most child ight child to replace it 
-		if (key != this->root->key) {
+		if (key != t->key) {//removing root case is way down there
 
 			cout << "this node " << t->key << " comparing " << key << endl;
 			if (key > t->key)
 			{
-				if (t->right->key == key && t->right->right == nullptr) {
+				cout << "key is larger" << endl;
+				if (t->right->key == key && t->right->right == nullptr && t->right->left) {
+				cout << "this node right child " << t->right->key << endl;
 					cout << "t-right-right isnull and t right is key" << endl;
 					BinaryNode* oldNode = t->right;
-					t = t->right->left;
+					cout << t->right->key << " is now " << t->right->left->key;
+					t->right = t->right->left;
 					delete oldNode;
 					return;
 				}
-				else if (t->right->key == key && t->right->left == nullptr) {
+				else if (t->right->key == key && t->right->left == nullptr && t->right->right) {
 
+				cout << "this node left child " << t->left->key << endl;
 					cout << "t-right-left isnull and t right is key" << endl;
 					BinaryNode* oldNode = t->right;
-					t = t->right->right;
+					cout << t->right->key << " is now " << t->right->right->key;
+					t->right = t->right->right;
 					delete oldNode;
 					return;
 				}
-				cout << "going right " << endl;
-				cout << "next level right " << t->left->key << endl;
-				remove(key, t->right);
+				else {
+					cout << "going right " << endl;
+					remove(key, t->right);
+				}
+
 			}
 			else if (key < t->key)
 			{
-				if (t->left->key == key && t->left->right == nullptr) {
+				cout << "key is smaller" << endl;
+				if (t->left->key == key && t->left->right == nullptr && t->left->right) {
+
 					cout << "t-left-right isnull and t left is key" << endl;
+					cout << t->left->key << " is now " << t->left->left->key;
 
 					BinaryNode* oldNode = t->left;
-					t = t->right->left;
-					delete oldNode;
+					t->left = t->left->left;
 					return;
 				}
-				else if (t->left->key == key && t->left->left == nullptr) {
+				else if (t->left->key == key && t->left->left == nullptr && t->left->right) {
 
 					cout << "t-left-leftg isnull and t left is key" << endl;
+					cout << t->left->key << " is now " << t->left->right->key;
+
 					BinaryNode* oldNode = t->left;
-					t = t->right->right;
+					t->left = t->left->right;
 					delete oldNode;
-					return;
 				}
+				else {
 				cout << "going left" << endl;
-				cout << "this node" << t->key << " is smaller than " << key << endl;
-				cout << "next level left " << t->key << t->left->key << endl;
-				cout << "key comparison" << t->left->key << endl;
 				remove(key, t->left);
+				}
 			}// cases where node to be removed has both children
 			else if (t->right->key == key) {//t->right is target
 			// get in order successor
 				//get left branch largest value
 				BinaryNode* nextLargest = t->right->left;
+
 				while (nextLargest != nullptr && nextLargest->right != nullptr)
 				{
 					nextLargest = nextLargest->right;
 				}
+				cout << t->right->key << " is now " << nextLargest->key << endl;
 				//copy over contents
 				t->right->key = nextLargest->key;
 				t->right->value = nextLargest->value;
@@ -163,16 +183,18 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 				{
 					nextLargest = nextLargest->right;
 				}
-				t->right->key = nextLargest->key;
-				t->right->value = nextLargest->value;
+				cout << t->left->key << " is now " << nextLargest->key << endl;
+
+				t->left->key = nextLargest->key;
+				t->left->value = nextLargest->value;
 				//recursive starting at new copied node, removing the one we just copied over
-				remove(nextLargest->key, t->right);
+				remove(nextLargest->key, t->left);
 
 			}
 		}
 		else {
 
-			// head key equal to key value
+			// removing root key equal to key value
 			if (t->right == nullptr)
 			{
 				BinaryNode* oldNode = t;
@@ -185,6 +207,13 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 				t = t->right;
 				delete oldNode;
 			}
+			else if (t->right == nullptr && t->left == nullptr)
+			{
+				//delete root node
+				BinaryNode* oldNode = t;
+				t = nullptr;
+				delete oldNode;
+			}
 			else
 			{
 				// get in order successor
@@ -194,10 +223,11 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 				{
 					nextLargest = nextLargest->right;
 				}
+				cout << t->key << " is now " << nextLargest->key << endl;
 				t->key = nextLargest->key;
 				t->value = nextLargest->value;
 				//recursive starting at new copied node, removing the one we just copied over
-				remove(nextLargest->key, t);
+				remove(nextLargest->key, t->left);
 
 			}
 		}
@@ -250,29 +280,26 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 	BinaryNode*  find(const KeyComparable & key, BinaryNode *node) const 
 	{
 		//*node starts at root
-		
-		// Base Case
+
 		BinaryNode* check = node;
 		if(key == check->key)
 		{
 			return check;
 
 		} // Recursive Cases
-		else if (key <check->key){
-
+		else if (key < check->key && check->left)
+		{
 			//go left
 			check = find(key, check->left);
-
 		}
-		else
+		else if (key > check->key && check->right)
 		{
 			// go right
 			check = find(key, check->right);
 		}
+
 		// returns a pointer to the BinaryNode in qustion.  
 		return check;
-
-
 	}
 
 	// Private
@@ -360,7 +387,7 @@ class BinarySearchTree : BSTInterface < KeyComparable, Value >  {
 		// Returns a pointer to the node ins qestion to 'find' variable
 
 		BinaryNode* find =  this->find(key, this->root);
-		if (find->value->getID() == key) {
+		if (find != nullptr) {
 			success = true;
 			founditem = find->value;//returning a Value type (not node)
 		}

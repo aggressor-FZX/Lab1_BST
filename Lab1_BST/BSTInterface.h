@@ -1,4 +1,9 @@
 
+/*
+ Jeff Calderon BST Interface.h
+ I may have changed one of the signitures like the remove or contain functions
+
+*/
 #include <iostream>
 #include <ostream>
 
